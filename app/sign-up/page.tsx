@@ -94,14 +94,13 @@ function Signup() {
   }
 
   return (
-    <div
-      id="clerk-captcha"
-      className="flex items-center justify-center min-h-screen bg-background"
-    >
+    <div className="flex items-center justify-center min-h-screen bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">
-            Sign Up for Todo Master
+            {pendingVerification
+              ? "Verify Your Email"
+              : "Sign Up for Todo Master"}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -173,17 +172,20 @@ function Signup() {
           )}
         </CardContent>
         <CardFooter className="justify-center">
-          <p className="text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <Link
-              href="/sign-in"
-              className="font-medium text-primary hover:underline"
-            >
-              Sign in
-            </Link>
-          </p>
+          {!pendingVerification && (
+            <p className="text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <Link
+                href="/sign-in"
+                className="font-medium text-primary hover:underline"
+              >
+                Sign in
+              </Link>
+            </p>
+          )}
         </CardFooter>
       </Card>
+      <div id="clerk-captcha"></div>
     </div>
   );
 }
