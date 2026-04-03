@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   }
 
   const { searchParams } = new URL(req.url);
-  const page = parseInt(searchParams.get("page") || "1"); // how will the searchParams url look like?
+  const page = parseInt(searchParams.get("page") || "1"); // how will the searchParams url look like? like this (from frontend): /api/todos?page=${page}&search=${debounceSearchTerm}
   const search = searchParams.get("search") || "";
 
   try {
