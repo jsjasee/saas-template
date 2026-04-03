@@ -13,7 +13,8 @@ export async function GET(req: NextRequest) {
   }
 
   const { searchParams } = new URL(req.url);
-  const page = parseInt(searchParams.get("page") || "1"); // how will the searchParams url look like? like this (from frontend): /api/todos?page=${page}&search=${debounceSearchTerm}
+  const requestedPage = parseInt(searchParams.get("page") || "1"); // how will the searchParams url look like? like this (from frontend): /api/todos?page=${page}&search=${debounceSearchTerm}
+  const page = Number.isNaN(requestedPage) || requestedPage < 1 ? 1 : requestedPage;
   const search = searchParams.get("search") || "";
 
   try {
@@ -35,13 +36,13 @@ export async function GET(req: NextRequest) {
       where: {
         userId: userId,
         title: {
-          contains: "search",
+          contains: search,
           mode: "insensitive",
         },
       },
     });
 
-    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+    const totalPages = Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE));
 
     return NextResponse.json(
       {

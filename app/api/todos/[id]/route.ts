@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { userId } = await auth();
 
@@ -14,7 +14,8 @@ export async function PUT(
 
   try {
     const { completed } = await req.json();
-    const todoId = params.id;
+    const todoParams = await params;
+    const todoId = todoParams.id;
 
     const todo = await prisma.todo.findUnique({
       where: { id: todoId },
@@ -45,7 +46,7 @@ export async function PUT(
 // so the url is like : /api/todos/1 -> the 1 is the id
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { userId } = await auth();
 
@@ -55,7 +56,8 @@ export async function DELETE(
 
   try {
     // grab id from params
-    const todoId = params.id; // its called id because the folder is [id] -> nextJS thing
+    const todoParams = await params;
+    const todoId = todoParams.id; // its called id because the folder is [id] -> nextJS thing
 
     const todo = await prisma.todo.findUnique({
       where: { id: todoId },
