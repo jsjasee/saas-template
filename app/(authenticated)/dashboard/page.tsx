@@ -77,7 +77,7 @@ function Dashboard() {
       return;
     }
 
-    void fetchSubscriptionStatus();
+    fetchSubscriptionStatus();
   }, [fetchSubscriptionStatus, isLoaded]);
 
   useEffect(() => {
@@ -85,7 +85,7 @@ function Dashboard() {
       return;
     }
 
-    void fetchTodos(currentPage);
+    fetchTodos(currentPage);
   }, [currentPage, fetchTodos, isLoaded]);
 
   useEffect(() => {
